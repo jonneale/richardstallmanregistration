@@ -17,8 +17,9 @@ class RichardStallmanVisitsForward < Sinatra::Application
     
     def db
       if ENV['MONGOHQ_URL']
-        conn = Mongo::Connection.from_uri(URI.parse(ENV['MONGOHQ_URL']))
-        return conn.db(ENV['MONGOHQ_URL'])
+        uri = URI.parse(ENV['MONGOHQ_URL'])
+        conn = Mongo::Connection.from_uri(ENV['MONGOHQ_URL'])
+        return conn.db(uri.path.gsub(/^\//, ''))
       else
         return Mongo::Connection.new("localhost", "27017")['stallman']
       end 
