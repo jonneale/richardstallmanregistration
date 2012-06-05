@@ -1,0 +1,3 @@
+%ul
+  - REDIS.sinter('attending').each do |email|
+    %li= email

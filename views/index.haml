@@ -1,0 +1,63 @@
+%html{:lang => "en"}
+  %head
+    %meta{:charset => "utf-8"}
+      %title Bootstrap, from Twitter
+      %meta{:content => "width=device-width, initial-scale=1.0", :name => "viewport"}
+        %meta{:content => "", :name => "description"}
+          %meta{:content => "", :name => "author"}
+            / Le styles
+            %link{:href => "/stylesheets/bootstrap.css", :rel => "stylesheet"}
+              :css
+                body {
+                  padding-top: 60px;
+                  padding-bottom: 40px;
+                }
+                  %link{:href => "../assets/css/bootstrap-responsive.css", :rel => "stylesheet"}
+                / Le HTML5 shim, for IE6-8 support of HTML5 elements
+                /[if lt IE 9]
+                  <script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
+                / Le fav and touch icons
+                %link{:href => "../images/ico/favicon.ico", :rel => "shortcut icon"}
+                  %link{:href => "../images/ico/apple-touch-icon-144-precomposed.png", :rel => "apple-touch-icon-precomposed", :sizes => "144x144"}
+                    %link{:href => "../images/ico/apple-touch-icon-114-precomposed.png", :rel => "apple-touch-icon-precomposed", :sizes => "114x114"}
+                      %link{:href => "../images/ico/apple-touch-icon-72-precomposed.png", :rel => "apple-touch-icon-precomposed", :sizes => "72x72"}
+                        %link{:href => "../images/ico/apple-touch-icon-57-precomposed.png", :rel => "apple-touch-icon-precomposed"}
+  %body
+    .container
+      .hero-unit
+        %h1 
+          Richard Stallman talks at 
+          %a{:href => "http://forwardtechnology.co.uk/", :title => "Visit our website"} Forward
+          22nd June 2012, 2:00 pm
+        %p
+        %p Places are limited. Please register your interest by filling in your email below. We will email you confirmation of your registration, along with any updates on the event. We will not use your email address for any marketing purposes
+        - if confirmed
+          %h2 Thank you for registering. We will be in touch soon
+          %p
+        - else
+          %form(action="/" method="post")
+            %input.large(name="email" value="Email Address" onfocus="if (this.value == 'Email Address') { this.value = '' };")
+            %input.btn.btn-primary.btn-large(type="submit" value="Confirm »")
+        %h2 The talk - Copyright vs Community
+        %p Copyright developed in the age of the printing press, and was designed to fit with the system of centralized copying imposed by the printing press. But the copyright system does not fit well with computer networks, and only draconian punishments can enforce it. The global corporations that profit from copyright are lobbying for draconian punishments, and to increase their copyright powers, while suppressing public access to technology. But if we seriously hope to serve the only legitimate purpose of copyright--to promote progress, for the benefit of the public--then we must make changes in the other direction.
+        %p Richard Stallman's talks are not technical.  The topics of free software, copyright vs community, and digital inclusion deal with ethical/political issues that concern all users of computers.
+        
+      .row
+        .span4
+          %h2 About Forward Internet Group
+          %p Forward is a media technology company based in Camden. The technology team is a group of 47 developers who work on interesting challenges in an informal and ambitious environment.
+          %p We believe in using the best tools for the job. We love Ruby, Rails, Clojure, Node.js, R, Java, Hadoop, Mongo, Redis, Neo4j, Hbase, Objective C and more.
+          %p
+            %a.btn{:href => "http://forwardtechnology.co.uk/"} Visit out website »
+        .span4
+          %h2 Finding us
+          %p Our address is: Floor 2, Centro 3, 19 Mandela Street, London, NW1 0DU, United Kingdom
+          %ul 
+            Transport Links:
+            %li Underground: Camden Town, Mornington Crescent (Both Northern Line)
+            %li Train: Euston, St Pancras International, Camden Road
+            %li Bus: 274, 46
+        .span4#map
+          %h2 Map
+          %a.email{:target => "_blank", :title => "View on Google Maps", :href => "http://maps.google.co.uk/maps?f=q&source=s_q&hl=en&geocode=&q=19+Mandela+Street,+Camden+Town&aq=0&sll=53.800651,-4.064941&sspn=18.828876,57.084961&ie=UTF8&hq=&hnear=19+Mandela+St,+London+NW1+0DU,+United+Kingdom&z=16"}
+            %img{:src => "images/map.jpg", :alt => "Map: 19 Mandela Street, Camden, London NW1 0DU, UK"}
