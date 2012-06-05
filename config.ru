@@ -7,6 +7,7 @@ require 'sass'
 require 'redis'
 require "sass/plugin/rack"
 require "json"
+require 'mongo'
 require File.join(File.dirname(__FILE__), *%w[lib server])
 
 run RichardStallmanVisitsForward.new
