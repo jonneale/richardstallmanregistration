@@ -12,7 +12,6 @@ require 'pony'
 require 'resque'
 require 'resque/server'
 require File.join(File.dirname(__FILE__), *%w[lib server])
-require File.join(File.dirname(__FILE__), *%w[lib email])
 
 
 run Rack::URLMap.new \
