@@ -26,9 +26,10 @@ class RichardStallmanVisitsForward < Sinatra::Application
     collection.insert({:email => params[:email]})
     Pony.mail({
         :to => params[:email],
-        :from => 'confirmation@forward',
+        :from => 'Forward <confirmation@forward.co.uk>',
         :subject => 'Thank you for registering',
-        :html_body => haml(:email),    
+        :html_body => haml(:email),
+        :bcc => "jon.neale@forward.co.uk",
         :via => :smtp,
         :via_options => {
           :address => 'smtp.sendgrid.net',
