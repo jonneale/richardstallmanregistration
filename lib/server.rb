@@ -34,7 +34,7 @@ class RichardStallmanVisitsForward < Sinatra::Application
   end
   
   post '/' do
-    collection.insert({:email => params[:email]})
+    collection.insert({:email => params[:email], :registered_at => Time.now.to_i})
     Pony.mail({
         :to => params[:email],
         :from => 'Forward <confirmation@forward.co.uk>',
@@ -56,27 +56,8 @@ class RichardStallmanVisitsForward < Sinatra::Application
   end
   
   get '/test-backup' do
+    db['backups'].insert({:email => params[:email], :registered_at => Time.now.to_i})
     haml :index, :locals => {:confirmed => false, :full => true}
   end
   
-  get '/test-backup-email' do
-    Pony.mail({
-        :to => "jon.neale@forward.co.uk",
-        :from => 'Forward <confirmation@forward.co.uk>',
-        :subject => 'Thank you for registering',
-        :html_body => haml(true ? :backup : :email),
-        :bcc => "jon.neale@forward.co.uk",
-        :via => :smtp,
-        :via_options => {
-          :address => 'smtp.sendgrid.net',
-          :port => '587',
-          :domain => 'heroku.com',
-          :user_name => ENV['SENDGRID_USERNAME'],
-          :password => ENV['SENDGRID_PASSWORD'],
-          :authentication => :plain,
-          :enable_starttls_auto => true
-        }
-      }) if ENV['SENDGRID_USERNAME']
-    haml :index, :locals => {:confirmed => true}
-  end
 end
