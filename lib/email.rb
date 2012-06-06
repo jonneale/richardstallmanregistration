@@ -1,3 +1,5 @@
+require 'haml'
+
 class Email
   @queue = :send_email
 
