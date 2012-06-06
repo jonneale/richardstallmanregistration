@@ -20,7 +20,7 @@ class RichardStallmanVisitsForward < Sinatra::Application
   
   
   get '/email' do
-    Pony.options = {
+    Pony.mail({
       :to => 'jon.neale@forward.co.uk',
       :subject => 'Thank you for registering',
       :html_body => haml(:email),    
@@ -34,7 +34,7 @@ class RichardStallmanVisitsForward < Sinatra::Application
         :authentication => :plain,
         :enable_starttls_auto => true
       }
-    }
+    })
   end
 
   
