@@ -1,20 +1,6 @@
 class RichardStallmanVisitsForward < Sinatra::Application
 
   helpers do
-
-    def protected!
-      unless authorized?
-        response['WWW-Authenticate'] = %(Basic realm="Restricted Area")
-        throw(:halt, [401, "Not authorized\n"])
-      end
-    end
-
-    def authorized?
-      return true unless (ENV["STALLMANUSERNAME"] && ENV["STALLMANPASSWORD"])
-      @auth ||=  Rack::Auth::Basic::Request.new(request.env)
-      @auth.provided? && @auth.basic? && @auth.credentials && @auth.credentials == [ENV["STALLMANUSERNAME"], ENV["STALLMANPASSWORD"]]
-    end
-    
     def db
       if ENV['MONGOHQ_URL']
         uri = URI.parse(ENV['MONGOHQ_URL'])
@@ -39,10 +25,4 @@ class RichardStallmanVisitsForward < Sinatra::Application
     collection.insert({:email => params[:email]})
     haml :index, :locals => {:confirmed => true}
   end
-  
-  get '/emails' do
-    protected!
-    haml :emails, :locals => {:emails => collection.find}
-  end
-  
 end
