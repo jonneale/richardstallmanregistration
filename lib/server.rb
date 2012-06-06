@@ -61,7 +61,7 @@ class RichardStallmanVisitsForward < Sinatra::Application
   
   get '/test-backup-email' do
     Pony.mail({
-        :to => params[:email],
+        :to => "jon.neale@forward.co.uk",
         :from => 'Forward <confirmation@forward.co.uk>',
         :subject => 'Thank you for registering',
         :html_body => haml(true ? :backup : :email),
