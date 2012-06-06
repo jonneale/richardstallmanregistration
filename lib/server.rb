@@ -17,42 +17,29 @@ class RichardStallmanVisitsForward < Sinatra::Application
     end
     
   end
-  
-  module Email
-    @queue = :send_email
-
-    def self.perform(email)
-       Pony.mail({
-          :to => 'email',
-          :from => 'confirmation@forward',
-          :subject => 'Thank you for registering',
-          :html_body => haml(:email),    
-          :via => :smtp,
-          :via_options => {
-            :address => 'smtp.sendgrid.net',
-            :port => '587',
-            :domain => 'heroku.com',
-            :user_name => ENV['SENDGRID_USERNAME'],
-            :password => ENV['SENDGRID_PASSWORD'],
-            :authentication => :plain,
-            :enable_starttls_auto => true
-          }
-        })
-    end
-  end
-  
-
-  uri = URI.parse(ENV["REDISTOGO_URL"] || "http://localhost")
-  Resque.redis = Redis.new(:host => uri.host, :port => uri.port, :password => uri.password)
-
-  
+ 
   get '/' do
     haml :index, :locals => {:confirmed => false}
   end
   
   post '/' do
     collection.insert({:email => params[:email]})
-    Resque.enqueue(Email, params[:email])
+    Pony.mail({
+        :to => '#{haml(params[:email])}',
+        :from => 'confirmation@forward',
+        :subject => 'Thank you for registering',
+        :html_body => haml(:email),    
+        :via => :smtp,
+        :via_options => {
+          :address => 'smtp.sendgrid.net',
+          :port => '587',
+          :domain => 'heroku.com',
+          :user_name => ENV['SENDGRID_USERNAME'],
+          :password => ENV['SENDGRID_PASSWORD'],
+          :authentication => :plain,
+          :enable_starttls_auto => true
+        }
+      })
     haml :index, :locals => {:confirmed => true}
   end
 end
