@@ -25,7 +25,7 @@ class RichardStallmanVisitsForward < Sinatra::Application
   post '/' do
     collection.insert({:email => params[:email]})
     Pony.mail({
-        :to => '#{haml(params[:email])}',
+        :to => haml(params[:email]),
         :from => 'confirmation@forward',
         :subject => 'Thank you for registering',
         :html_body => haml(:email),    
