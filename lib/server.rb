@@ -54,10 +54,4 @@ class RichardStallmanVisitsForward < Sinatra::Application
       }) if ENV['SENDGRID_USERNAME']
     haml :index, :locals => {:confirmed => true}
   end
-  
-  get '/test-backup' do
-    db['backups'].insert({:email => params[:email], :registered_at => Time.now.to_i})
-    haml :index, :locals => {:confirmed => false, :full => true}
-  end
-  
 end
