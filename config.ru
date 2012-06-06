@@ -8,6 +8,7 @@ require 'redis'
 require "sass/plugin/rack"
 require "json"
 require 'mongo'
+require 'pony'
 require File.join(File.dirname(__FILE__), *%w[lib server])
 
 run RichardStallmanVisitsForward.new
