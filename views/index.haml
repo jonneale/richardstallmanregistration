@@ -31,11 +31,14 @@
           %a{:href => "http://forwardtechnology.co.uk/", :title => "Visit our website"} Forward
           22nd June 2012, 2:00 pm
         %p
-        %p Places are limited. Please register your interest by filling in your email below. We will email you confirmation of your registration, along with any updates on the event. We will not use your email address for any marketing purposes
         - if confirmed
           %h2 Thank you for registering. We will be in touch soon
           %p
         - else
+          - if full
+            %p Unfortunately the event is now full. If you want to join the reserve list, please fill in your email address below, and we will email you if there are any drop outs. We will not use your email address for any marketing purposes
+          - else
+            %p Places are limited. Please register your interest by filling in your email below. We will email you confirmation of your registration, along with any updates on the event. We will not use your email address for any marketing purposes
           %form(action="/" method="post")
             %input.large(name="email" value="Email Address" onfocus="if (this.value == 'Email Address') { this.value = '' };")
             %input.btn.btn-primary.btn-large(type="submit" value="Confirm »")
