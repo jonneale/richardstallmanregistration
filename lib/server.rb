@@ -18,24 +18,9 @@ class RichardStallmanVisitsForward < Sinatra::Application
     
   end
   
-  
-  get '/email' do
-    Pony.mail({
-      :to => 'jon.neale@forward.co.uk',
-      :subject => 'Thank you for registering',
-      :html_body => haml(:email),    
-      :via => :smtp,
-      :via_options => {
-        :address => 'smtp.sendgrid.net',
-        :port => '587',
-        :domain => 'heroku.com',
-        :user_name => ENV['SENDGRID_USERNAME'],
-        :password => ENV['SENDGRID_PASSWORD'],
-        :authentication => :plain,
-        :enable_starttls_auto => true
-      }
-    })
-  end
+
+  uri = URI.parse(ENV["REDISTOGO_URL"] || "http://localhost")
+  Resque.redis = Redis.new(:host => uri.host, :port => uri.port, :password => uri.password)
 
   
   get '/' do
@@ -44,6 +29,7 @@ class RichardStallmanVisitsForward < Sinatra::Application
   
   post '/' do
     collection.insert({:email => params[:email]})
+    Resque.enqueue(Email, params[:email])
     haml :index, :locals => {:confirmed => true}
   end
 end
