@@ -35,23 +35,27 @@ class RichardStallmanVisitsForward < Sinatra::Application
   
   post '/' do
     collection.insert({:email => params[:email], :registered_at => Time.now.to_i})
-    Pony.mail({
-        :to => params[:email],
-        :from => 'Forward <confirmation@forward.co.uk>',
-        :subject => 'Thank you for registering',
-        :html_body => haml(full? ? :backup : :email),
-        :bcc => "jon.neale@forward.co.uk",
-        :via => :smtp,
-        :via_options => {
-          :address => 'smtp.sendgrid.net',
-          :port => '587',
-          :domain => 'heroku.com',
-          :user_name => ENV['SENDGRID_USERNAME'],
-          :password => ENV['SENDGRID_PASSWORD'],
-          :authentication => :plain,
-          :enable_starttls_auto => true
-        }
-      }) if ENV['SENDGRID_USERNAME']
+    begin
+      Pony.mail({
+          :to => params[:email],
+          :from => 'Forward <confirmation@forward.co.uk>',
+          :subject => 'Thank you for registering',
+          :html_body => haml(full? ? :backup : :email),
+          :bcc => "jon.neale@forward.co.uk",
+          :via => :smtp,
+          :via_options => {
+            :address => 'smtp.sendgrid.net',
+            :port => '587',
+            :domain => 'heroku.com',
+            :user_name => ENV['SENDGRID_USERNAME'],
+            :password => ENV['SENDGRID_PASSWORD'],
+            :authentication => :plain,
+            :enable_starttls_auto => true
+          }
+        }) if ENV['SENDGRID_USERNAME']
+    rescue Exception => e
+      collection.insert({:email => params[:email], :email => "failed", :reason => e.backtrace.join("\n")})
+    end
     haml :index, :locals => {:confirmed => true}
   end
 end
