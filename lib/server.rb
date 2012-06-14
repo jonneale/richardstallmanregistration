@@ -1,6 +1,6 @@
 class RichardStallmanVisitsForward < Sinatra::Application
 
-  MAX_ATTENDEES = 83
+  MAX_ATTENDEES = 75
   
   helpers do
     def connection
